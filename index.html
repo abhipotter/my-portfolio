@@ -28,6 +28,136 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
 
     <style>
+      /* From Uiverse.io by OMPRABHU8125 */ 
+    .loader {
+      height: 100vh;
+      width: 100vw;
+      background: transparent;
+      backdrop-filter: blur(25px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .fade-out{
+      display: none !important;
+    }
+
+    .react-star {
+      position: relative;
+      width: 15rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 15rem;
+      animation: rotate 3s infinite;
+    }
+
+    .nucleus {
+      position: absolute;
+
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      background: linear-gradient(#0738e8, cyan);
+      height: 2rem;
+      width: 2rem;
+      animation: rotate 1s linear infinite;
+    }
+
+    .electron {
+      position: absolute;
+      width: 15rem;
+      height: 6rem;
+      border-radius: 50%;
+      border: 0.3rem solid #00ffff;
+      animation: revolve 1s linear infinite;
+    }
+
+    .electron1::before,
+    .electron2::before,
+    .electron3::before {
+      content: "";
+      position: absolute;
+      top: 60%;
+      left: 100%;
+      transform: translate(-50%, -50%);
+      width: 1rem;
+      height: 1rem;
+      background-color: cyan;
+      border-radius: 50%;
+      animation: moveElectron 1s infinite;
+    }
+    .electron2 {
+      transform: rotate(60deg);
+      animation-delay: -0.66s;
+    }
+    .electron2::before {
+      animation-delay: -0.66s;
+    }
+
+    .electron3 {
+      transform: rotate(-60deg);
+    }
+
+    @keyframes rotate {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg) scale3d(1.1, 1.1, 0);
+      }
+    }
+
+    @keyframes revolve {
+      0% {
+        border-color: #00ffff9c;
+        border-right: transparent;
+      }
+      25% {
+        border-color: #00ffff9c;
+        border-bottom-color: transparent;
+      }
+      50% {
+        border-color: #00ffff9c;
+        border-left-color: transparent;
+      }
+      75% {
+        border-color: #00ffff9c;
+        border-top-color: transparent;
+      }
+      100% {
+        border-color: #00ffff9c;
+        border-right-color: transparent;
+      }
+    }
+
+    @keyframes moveElectron {
+      0% {
+        top: 60%;
+        left: 100%;
+      }
+      25% {
+        top: 100%;
+        left: 60%;
+      }
+      50% {
+        top: 60%;
+        left: 0%;
+      }
+      75% {
+        top: 0%;
+        left: 60%;
+      }
+      100% {
+        top: 60%;
+        left: 100%;
+      }
+    }
+
       * {
         margin: 0;
         padding: 0;
@@ -105,7 +235,7 @@
         padding: 1.5rem 5%;
         background: rgba(15, 23, 42, 0.8);
         backdrop-filter: blur(10px);
-        z-index: 1000;
+        z-index: 999;
         transition: all 0.3s ease;
       }
 
@@ -1267,61 +1397,6 @@
           overflow-y: auto;
         }
       }
-
-      /* Loading Animation */
-      .loader {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: var(--dark-bg);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 10000;
-        transition: opacity 0.5s ease;
-      }
-
-      .loader.fade-out {
-        opacity: 0;
-        pointer-events: none;
-      }
-
-      .loader-content {
-        text-align: center;
-      }
-
-      .spinner {
-        width: 50px;
-        height: 50px;
-        border: 3px solid rgba(99, 102, 241, 0.3);
-        border-top-color: var(--primary-color);
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-        margin: 0 auto 1rem;
-      }
-
-      @keyframes spin {
-        to {
-          transform: rotate(360deg);
-        }
-      }
-
-      /* Floating Animation */
-      @keyframes float {
-        0%,
-        100% {
-          transform: translateY(0);
-        }
-        50% {
-          transform: translateY(-20px);
-        }
-      }
-
-      .floating {
-        animation: float 3s ease-in-out infinite;
-      }
     </style>
 
     <style>
@@ -1839,10 +1914,15 @@
   </head>
   <body>
     <!-- Loader -->
-    <div class="loader" id="loader">
-      <div class="loader-content">
-        <div class="spinner"></div>
-        <p>Loading Portfolio...</p>
+    <div id="loader">
+    <!-- From Uiverse.io by OMPRABHU8125 --> 
+      <div class="loader">
+        <div class="react-star">
+          <div class="nucleus"></div>
+          <div class="electron electron1"></div>
+          <div class="electron electron2"></div>
+          <div class="electron electron3"></div>
+        </div>
       </div>
     </div>
 
@@ -2787,14 +2867,16 @@
 
     <!-- Typed.js for typing effect -->
     <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
     <script>
       // Loader
-      window.addEventListener("load", function () {
+     $(window).on("load", function() {
         setTimeout(() => {
-          document.getElementById("loader").classList.add("fade-out");
-        }, 1000);
-      });
+            $("#loader").fadeOut(600);
+        }, 1200);
+    });
+
 
       // Initialize AOS
       AOS.init({
